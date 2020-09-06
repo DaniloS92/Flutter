@@ -12,6 +12,9 @@ class _InputPageState extends State<InputPage> {
   String _email = '';
   String _pass = '';
   String _fecha = '';
+  String _opcionSeleccionada = 'Volar';
+
+  List<String> _poderes = ['Volar', 'Rayos x', 'Super fuerza'];
 
   TextEditingController _inputFieldDateController = new TextEditingController();
 
@@ -32,9 +35,45 @@ class _InputPageState extends State<InputPage> {
           Divider(),
           buildCrearFecha(context),
           Divider(),
+          buildBuildCreaDropdown(),
+          Divider(),
           _crearPersona()
         ],
       ),
+    );
+  }
+
+  List<DropdownMenuItem<String>> getOpcionesDropdown() {
+    List<DropdownMenuItem<String>> lista = new List();
+
+    _poderes.forEach((element) {
+      lista.add(DropdownMenuItem(
+        child: Text(element),
+        value: element,
+      ));
+    });
+    return lista;
+  }
+
+  Widget buildBuildCreaDropdown() {
+    return Row(
+      children: [
+        Icon(Icons.select_all),
+        SizedBox(
+          width: 18.0,
+        ),
+        Expanded(
+          child: DropdownButton(
+            value: _opcionSeleccionada,
+            items: getOpcionesDropdown(),
+            onChanged: (value) {
+              setState(() {
+                _opcionSeleccionada = value;
+              });
+            },
+          ),
+        ),
+      ],
     );
   }
 
@@ -42,6 +81,7 @@ class _InputPageState extends State<InputPage> {
     return ListTile(
       title: Text("Nombre: $_nombre"),
       subtitle: Text("Email: $_email"),
+      trailing: Text(_opcionSeleccionada),
     );
   }
 
@@ -127,7 +167,7 @@ class _InputPageState extends State<InputPage> {
     DateTime picket = await showDatePicker(
       context: context,
       initialDate: new DateTime.now(),
-      firstDate: new DateTime(2018),
+      firstDate: new DateTime(1990),
       lastDate: new DateTime(2025),
       locale: Locale('es', 'EC'),
     );
