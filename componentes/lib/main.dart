@@ -1,3 +1,4 @@
+import 'package:componentes/src/pages/listview_page.dart';
 import 'package:componentes/src/pages/slider_page.dart';
 import 'package:flutter/material.dart';
 import 'package:componentes/src/pages/animated_container.dart';
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
         'container': (BuildContext context) => AnimatedContainerPage(),
         'inputs': (BuildContext context) => InputPage(),
         'slider': (BuildContext context) => SlidersPage(),
+        'list': (BuildContext context) => ListaPage(),
       },
     );
   }
