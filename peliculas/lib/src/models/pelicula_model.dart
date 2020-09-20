@@ -70,4 +70,12 @@ class Pelicula {
           'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png';
     return url;
   }
+
+  getBackgroundImg() {
+    String url = 'https://image.tmdb.org/t/p/w500/$backdropPath';
+    if (posterPath == null)
+      url =
+          'https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png';
+    return url;
+  }
 }
