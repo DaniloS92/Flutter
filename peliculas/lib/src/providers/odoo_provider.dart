@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:odoo_rpc/odoo_rpc.dart';
+import 'package:peliculas/src/models/product_model.dart';
 
 class OdooProvider {
   String _url = 'http://192.99.151.183:8069/';
@@ -22,12 +23,11 @@ class OdooProvider {
     return null;
   }
 
-  Future getProducts() async {
+  Future<List<Product>> getProductsByName(String query) async {
     final client = OdooClient(_url);
+    ListProducts productos;
     try {
       final session = await client.authenticate(_db, _user, _pass);
-      print(session);
-      print('Authenticated');
       final imageField =
           session.serverVersion >= 13 ? 'image_128' : 'image_small';
       var products = await client.callKw({
@@ -35,16 +35,60 @@ class OdooProvider {
         'method': 'search_read',
         'args': [],
         'kwargs': {
-          'fields': ['id', 'name', 'type', imageField],
+          'domain': [
+            ['name', 'ilike', query]
+          ],
+          'fields': [
+            'id',
+            'name',
+            'type',
+            'list_price',
+            '__last_update',
+            imageField
+          ],
         },
       });
-      print('\nInstalled modules: \n' + products.toString());
+      productos = new ListProducts.fromJsonList(products);
     } on OdooException catch (e) {
       print(e);
       client.close();
       exit(-1);
+      return null;
     }
     client.close();
-    return null;
+    return productos.productos;
+  }
+
+  Future<List<Product>> getProducts() async {
+    final client = OdooClient(_url);
+    ListProducts productos;
+    try {
+      final session = await client.authenticate(_db, _user, _pass);
+      final imageField =
+          session.serverVersion >= 13 ? 'image_128' : 'image_small';
+      var products = await client.callKw({
+        'model': 'product.template',
+        'method': 'search_read',
+        'args': [],
+        'kwargs': {
+          'fields': [
+            'id',
+            'name',
+            'type',
+            'list_price',
+            '__last_update',
+            imageField
+          ],
+        },
+      });
+      productos = new ListProducts.fromJsonList(products);
+    } on OdooException catch (e) {
+      print(e);
+      client.close();
+      exit(-1);
+      return null;
+    }
+    client.close();
+    return productos.productos;
   }
 }

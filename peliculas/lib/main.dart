@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
   final demoOdoo = new OdooProvider();
   @override
   Widget build(BuildContext context) {
-    demoOdoo.getProducts();
+    var list = demoOdoo.getProducts();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Peliculas',
