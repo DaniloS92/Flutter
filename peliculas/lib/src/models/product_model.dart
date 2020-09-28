@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/services.dart' show rootBundle;
 import 'dart:typed_data';
 
 class ListProducts {
@@ -37,7 +38,10 @@ class Product {
   }
 
   Uint8List getImgBase64() {
-    Uint8List bytes = base64.decode(image);
+    Uint8List bytes;
+    if (image != '') {
+      bytes = base64.decode(image);
+    }
     return bytes;
   }
 }

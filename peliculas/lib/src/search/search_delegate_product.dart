@@ -66,7 +66,9 @@ class DataSearchProduct extends SearchDelegate {
                 .map((product) => ListTile(
                       leading: FadeInImage(
                         placeholder: AssetImage("assets/img/no-image.jpg"),
-                        image: MemoryImage(product.getImgBase64()),
+                        image: (product.getImgBase64() != null)
+                            ? MemoryImage(product.getImgBase64())
+                            : AssetImage("assets/img/no-image.jpg"),
                         width: 50,
                         fit: BoxFit.contain,
                       ),
