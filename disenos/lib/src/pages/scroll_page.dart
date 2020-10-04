@@ -18,13 +18,14 @@ class ScrollPage extends StatelessWidget {
 
   Widget _pagina1() {
     return Container(
-        child: Stack(
-      children: [
-        _colorFondo(),
-        _imagenFondo(),
-        _textoFondo(),
-      ],
-    ));
+      child: Stack(
+        children: [
+          _colorFondo(),
+          _imagenFondo(),
+          _textoFondo(),
+        ],
+      ),
+    );
   }
 
   Widget _pagina2() {
