@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:shop_app/routs.dart';
+import 'package:shop_app/screens/main_menu/main_menu_screen.dart';
 import 'package:shop_app/screens/splash/splash_screen.dart';
 import 'package:shop_app/theme.dart';
 
