@@ -82,8 +82,9 @@ class _BodyState extends State<Body> {
       width: currentPage == index ? 20 : 6,
       height: 6,
       decoration: BoxDecoration(
-          color: currentPage == index ? kPrimaryColor : Color(0xFFD8D8D8),
-          borderRadius: BorderRadius.circular(3)),
+        color: currentPage == index ? kPrimaryColor : Color(0xFFD8D8D8),
+        borderRadius: BorderRadius.circular(3),
+      ),
     );
   }
 }
