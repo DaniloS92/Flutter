@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:qrreader/src/bloc/scans_block.dart';
+import 'package:qrreader/src/models/scan_model.dart';
 import 'package:qrreader/src/pages/direcciones_page.dart';
 import 'package:qrreader/src/pages/mapa_page.dart';
-
-import 'package:qrreader/src/providers/db_provider.dart';
+import 'package:qrreader/src/utils/utils.dart' as utils;
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
@@ -12,6 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final scansBloc = new ScansBloc();
   int currentIndex = 0;
 
   @override
@@ -22,7 +26,7 @@ class _HomePageState extends State<HomePage> {
         actions: [
           IconButton(
             icon: Icon(Icons.delete_forever),
-            onPressed: () {},
+            onPressed: scansBloc.borrarTodosScans,
           )
         ],
       ),
@@ -33,16 +37,16 @@ class _HomePageState extends State<HomePage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
-        onPressed: _scanQR,
+        onPressed: () => _scanQR(context),
         child: Icon(Icons.filter_center_focus),
       ),
     );
   }
 
-  _scanQR() async {
+  _scanQR(BuildContext context) async {
     //geo:40.701332383808946,-73.87135878046878
     //http://fullcode.site/
-    dynamic futureString = 'http://fullcode.site/';
+    dynamic futureString = 'http://nosolotec.elipsys.ec/';
 
     // try {
     //   futureString = await BarcodeScanner.scan();
@@ -53,7 +57,18 @@ class _HomePageState extends State<HomePage> {
 
     if (futureString != null) {
       final scan = ScanModel(valor: futureString);
-      DBProvider.db.nuevoScan(scan);
+      scansBloc.agregarScan(scan);
+
+      final scan2 =
+          ScanModel(valor: 'geo:40.701332383808946,-73.87135878046878');
+      scansBloc.agregarScan(scan2);
+
+      if (Platform.isIOS) {
+        Future.delayed(
+            Duration(milliseconds: 750), () => utils.abrirScan(context, scan));
+      } else {
+        utils.abrirScan(context, scan);
+      }
     }
   }
 
