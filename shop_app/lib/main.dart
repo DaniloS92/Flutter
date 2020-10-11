@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Ecommerce',
       theme: theme(),
-      initialRoute: SplashScreen.routeName,
+      initialRoute: MainMenuScreen.routeName,
       routes: routes,
     );
   }

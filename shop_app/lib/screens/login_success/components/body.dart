@@ -32,7 +32,7 @@ class Body extends StatelessWidget {
             child: DefaultButton(
               text: "Back to home",
               press: () =>
-                  Navigator.pushNamed(context, MainMenuScreen.ruteName),
+                  Navigator.pushNamed(context, MainMenuScreen.routeName),
             ),
           ),
           Spacer(),

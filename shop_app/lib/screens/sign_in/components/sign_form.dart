@@ -65,7 +65,7 @@ class _SignFormState extends State<SignForm> {
                 {
                   _formKey.currentState.save(),
                   //Aqui hacer la validacion del usuario y mostrar el ok
-                  Navigator.pushNamed(context, LogginSuccessScreen.ruteName)
+                  Navigator.pushNamed(context, LogginSuccessScreen.routeName)
                 }
             },
           )

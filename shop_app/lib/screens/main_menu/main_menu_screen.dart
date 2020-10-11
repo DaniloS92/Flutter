@@ -7,7 +7,7 @@ import 'package:shop_app/screens/main_menu/components/body_shopping.dart';
 import 'package:shop_app/screens/main_menu/components/body_smile.dart';
 
 class MainMenuScreen extends StatefulWidget {
-  static String ruteName = "/main_menu";
+  static String routeName = "/main_menu";
 
   @override
   _MainMenuScreenState createState() => _MainMenuScreenState();

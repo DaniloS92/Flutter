@@ -40,18 +40,44 @@ class MyCustomClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     Path path = Path();
-    path.lineTo(0.0, size.height - 20);
+    var s = size;
+    final widthEnd = s.width / 5;
 
-    var firstControlPoint = Offset(size.width / 4, size.height);
-    var firstEndPoint = Offset(size.width / 2.25, size.height - 30.0);
-    path.quadraticBezierTo(firstControlPoint.dx, firstControlPoint.dy,
-        firstEndPoint.dx, firstEndPoint.dy);
+    path.lineTo(0.0, s.height / 3);
+    path.quadraticBezierTo(
+      s.width - (s.width / 1.15),
+      s.height - 50,
+      widthEnd,
+      s.height - 30,
+    );
 
-    var secondControlPoint =
-        Offset(size.width - (size.width / 3.25), size.height - 65);
-    var secondEndPoint = Offset(size.width, size.height - 40);
-    path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy,
-        secondEndPoint.dx, secondEndPoint.dy);
+    path.quadraticBezierTo(
+      s.width - (s.width / 1.43),
+      s.height - 5,
+      widthEnd * 2,
+      s.height - 30,
+    );
+
+    path.quadraticBezierTo(
+      s.width - (s.width / 1.95),
+      s.height - 50,
+      widthEnd * 3,
+      s.height - 30,
+    );
+
+    path.quadraticBezierTo(
+      s.width - (s.width / 3.5),
+      s.height - 5,
+      widthEnd * 4,
+      s.height - 30,
+    );
+
+    path.quadraticBezierTo(
+      s.width - 44,
+      s.height - 50,
+      widthEnd * 5,
+      s.height - 30,
+    );
 
     path.lineTo(size.width, size.height - 20);
     path.lineTo(size.width, 0.0);
