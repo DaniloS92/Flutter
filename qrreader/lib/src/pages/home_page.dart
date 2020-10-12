@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:qrreader/src/bloc/scans_block.dart';
 import 'package:qrreader/src/models/scan_model.dart';
@@ -46,22 +47,17 @@ class _HomePageState extends State<HomePage> {
   _scanQR(BuildContext context) async {
     //geo:40.701332383808946,-73.87135878046878
     //http://fullcode.site/
-    dynamic futureString = 'http://nosolotec.elipsys.ec/';
+    dynamic futureString;
 
-    // try {
-    //   futureString = await BarcodeScanner.scan();
-    // } catch (e) {
-    //   futureString = e.toString();
-    // }
+    try {
+      futureString = await BarcodeScanner.scan();
+    } catch (e) {
+      futureString = e.toString();
+    }
     // print('Future String: ${futureString.rawContent}');
-
     if (futureString != null) {
-      final scan = ScanModel(valor: futureString);
+      final scan = ScanModel(valor: futureString.rawContent);
       scansBloc.agregarScan(scan);
-
-      final scan2 =
-          ScanModel(valor: 'geo:40.701332383808946,-73.87135878046878');
-      scansBloc.agregarScan(scan2);
 
       if (Platform.isIOS) {
         Future.delayed(
