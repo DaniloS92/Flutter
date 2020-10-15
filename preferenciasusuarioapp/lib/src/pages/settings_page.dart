@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:preferenciasusuarioapp/src/share_pref/preferencias_usuario.dart';
 
 import 'widget/drawer_widget.dart';
 
@@ -14,31 +13,30 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  bool _colorSecundario = true;
-  int _genero = 1;
-  String _nombre = 'Danilo';
+  bool _colorSecundario;
+  int _genero;
+  String _nombre;
 
   TextEditingController textController;
+
+  final prefs = new PreferenciasUsario();
 
   @override
   void initState() {
     super.initState();
-    cargarData();
-    this.textController = new TextEditingController(text: this._nombre);
-  }
-
-  cargarData() async {
-    WidgetsFlutterBinding.ensureInitialized();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    this._genero = prefs.getInt('genero');
-    setState(() {});
+    this._genero = prefs.genero;
+    this._colorSecundario = prefs.colorSecundario;
+    this.textController = new TextEditingController(text: prefs.nombreUsuario);
   }
 
   @override
   Widget build(BuildContext context) {
+    prefs.ultimaPagina = SettingsPage.routeName;
     return Scaffold(
       appBar: AppBar(
         title: Text("Preferencias"),
+        backgroundColor:
+            (prefs.colorSecundario) ? Colors.teal : Colors.blueGrey,
       ),
       drawer: DrawerWidget(routeName: SettingsPage.routeName),
       body: ListView(
@@ -59,6 +57,7 @@ class _SettingsPageState extends State<SettingsPage> {
             title: Text('Color secundario'),
             onChanged: (value) {
               this._colorSecundario = value;
+              prefs.colorSecundario = value;
               setState(() {});
             },
           ),
@@ -82,7 +81,9 @@ class _SettingsPageState extends State<SettingsPage> {
               decoration: InputDecoration(
                   labelText: 'Nombre',
                   helperText: 'Nombre de la persona usando el telf'),
-              onChanged: (value) {},
+              onChanged: (value) {
+                prefs.nombreUsuario = value;
+              },
             ),
           )
         ],
@@ -90,10 +91,8 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  void _setSelectedRadio(int value) async {
-    WidgetsFlutterBinding.ensureInitialized();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setInt('genero', value);
+  void _setSelectedRadio(int value) {
+    prefs.genero = value;
     this._genero = value;
     setState(() {});
   }
