@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:formvalidation/src/models/producto.dart';
 import 'package:formvalidation/src/utils/utils.dart' as utils;
 
 class ProductoPage extends StatefulWidget {
@@ -8,6 +9,8 @@ class ProductoPage extends StatefulWidget {
 
 class _ProductoPageState extends State<ProductoPage> {
   final formKey = GlobalKey<FormState>();
+
+  ProductoModel producto = ProductoModel();
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +37,7 @@ class _ProductoPageState extends State<ProductoPage> {
               children: [
                 _crearNombre(),
                 _crearPrecio(),
+                _crearDisponible(),
                 _crearBoton(),
               ],
             ),
@@ -45,10 +49,12 @@ class _ProductoPageState extends State<ProductoPage> {
 
   Widget _crearNombre() {
     return TextFormField(
+      initialValue: producto.titulo,
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         labelText: 'Producto',
       ),
+      onSaved: (newValue) => producto.titulo = newValue,
       validator: (value) {
         if (value.length < 3) return 'Ingrese min 3 caracteres cojudo';
         return null;
@@ -58,10 +64,12 @@ class _ProductoPageState extends State<ProductoPage> {
 
   Widget _crearPrecio() {
     return TextFormField(
+      initialValue: producto.valor.toString(),
       keyboardType: TextInputType.numberWithOptions(decimal: true),
       decoration: InputDecoration(
         labelText: 'Precio',
       ),
+      onSaved: (newValue) => producto.valor = double.parse(newValue),
       validator: (value) {
         return (utils.isNumeric(value)) ? null : 'Número invalido pendejo';
       },
@@ -84,6 +92,22 @@ class _ProductoPageState extends State<ProductoPage> {
   void _submitForm() {
     if (!formKey.currentState.validate()) return;
 
+    formKey.currentState.save();
+
     print('Toda la wea esa ok');
+    print(producto.titulo);
+    print(producto.valor);
+  }
+
+  _crearDisponible() {
+    return SwitchListTile(
+      value: producto.disponible,
+      title: Text("Disponible"),
+      activeColor: Colors.deepPurple,
+      onChanged: (value) {
+        producto.disponible = value;
+        setState(() {});
+      },
+    );
   }
 }
